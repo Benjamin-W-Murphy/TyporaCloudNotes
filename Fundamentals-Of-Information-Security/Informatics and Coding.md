@@ -436,7 +436,7 @@ Shannon信息论的基本任务
 
 #### 2.3.1 离散无记忆信源
 
-设信源输出设备的随机序列为$\vec{F},\vec{F}=(X_1,X_2,...,X_l,...,X_L)$，序列中的单个符号变量$X_i\quad in \{x_1,x_2,...,X_n\},l=1,2,...,L  $ ，即序列长度为L
+设信源输出设备的随机序列为$\vec{F},\vec{F}=(X_1,X_2,...,X_l,...,X_L)$，序列中的单个符号变量$X_i\quad \in \{x_1,x_2,...,X_n\},l=1,2,...,L  $ ，即序列长度为L
 
 - 随机序列的概率为$P(X=x_i)=p(X_1=x_{i_1},X_2=x_{i_2},...,X_L=x_{i_L}),i=1,2,...,n^L;i_l=1,2,...,n$
 
@@ -455,7 +455,182 @@ Shannon信息论的基本任务
 
 #### 2.3.2 离散有记忆信源
 
-- 对于两个符号组成的联合信源
+- 对于两个符号组成的联合信源有以下结论
+  - $H(X_1,X_2)=H(X_1)+H(X_2|X_1)=H(X_2)+H(X_1|X_2)$
+  - $H(X_1)\geq H(X_1|X_2),H(X_2)\geq H(X_2|X_1)$
+  - 当两个符号相互独立时有推论：$H(X_1,X_2)=H(X_1)+H(X_2)，H(X_1|X_2)=H(X_1),H(X_2|X_1)=H(X_2)$
+
+- 若信源输出为一个序列时，有如下公式
+  - $H(\vec{X})=H(X_1,X_2,\cdots,X_L)=H(X_1)+H(X_2|X_1)+\cdots+H(X_L|X_1,X_2,\cdots,X_{L-1})$
+    - 通常记作$H(\vec{X})=H(X^L)=\sum_{l=1}^{L}{H(X_l|X^{l-1})}$
+  - 平均每个符号的熵为：$H_L(\vec{X})=\frac{1}{L}H(X^L)$
+  - 若当信源退化为无记忆时，有：$H(\vec{X})=\sum_{l=1}^{L}H(X_l)$
+  - 若进一步又满足了平稳性时，则有：$H(\vec{X})=LH(X)$
+  
+- 关于离散有记忆信源的一些结论
+
+  - 结论1：$H(X_L/X_{L-1})$是L的单调非增函数，由于条件熵小于或等于无条件熵，条件较的多的熵小于或等于条件减少一些条件的熵，考虑到平稳性，所以
+    $$
+    H(X_L|X_1,X_2,\cdots,X_{l-1})\leq H(X_L|X_2,\cdots,X_{L-1}) \\
+    \qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad=H(X_{L-1}|X_1,\cdots,X_{L-2})\quad(平稳性)\\
+    \qquad\qquad\qquad\qquad\qquad\quad\;\;\;\leq H(X_{L-1}|X_2,\cdots,X_{L-2}) \\
+    \qquad\qquad\qquad\qquad\qquad\quad\;\;=H(X_{l-2}|X_1,\cdots,X_{L-3})  \\
+    \quad\;\;\vdots\\
+    \qquad\qquad\qquad\;\;\leq H(X_2|X_1)
+    $$
+
+  - 结论2：$H_L(\vec{X})\geq H(X_L|X^{L-1})$
+
+  - 结论3：$H_L(\vec{X})$是L的单调非增函数
+
+  - 结论4：$L\rightarrow\infty$时，有$H_{\infty}(\vec{X})\triangleq \lim_{L\rightarrow\infty}{H_L(\vec{X})}=\lim_{L\rightarrow \infty}{H(X_L|X_1,X_2,\cdots,X_{L-1})}$
+  
+    - 其中$H_{\infty}(\vec{X})$称为极限熵，又称极限信息量
+  
+  - 对于齐次、遍历的马尔可夫链，其状态$s_i$由$(x_{i_1},\cdots,x_{i_m})$唯一确定，因此有
+  
+    - $p(x_{i_{m+1}}|x_{i_m},\cdots,x_{i_1})=p(x_{i_{m+1}}|s_{i})$
+    - 对所有符号取统计平均，然后取负得到$H_{\infty}(\vec{X})=\sum_{i}p(s_i)H(X|s_i) \quad $**马尔可夫信源的极限熵**
+      - 其中$p(s_i)$是马尔可夫链的稳态分布，熵函数$H(X|s_i)$表示信源处于某一状态$s_i$时发出一个消息符号的平均不确定性，即有$H(X|s_1)=-\sum_{j}p(x_j|s_i)log\;p(x_j|s_i)$
+      - 对状态$s_i$的全部可能性做统计平均，就可得到马尔可夫信源的平均符号熵$H_{\infty}(\vec{X})$
 
 ### 2.4连续信源的熵和互信息
+
+#### 2.4.1 幅度连续的单个符号信源熵
+
+- 对于单个变量分析，假设$x \in [a,b]$，令$\Delta x=(b-a)/n，x_i \in [a+(i-1)\Delta x,a+i\Delta x],p_X(x)$为连续变量X的概率密度函数，则利用中值定理可得$X$取$x_i$ 的概率是
+
+  - $p(x_i)=\int_{a+(i-1)\Delta x}^{a+i\Delta x}{p_X(x)dx}=p_X(x_i)\Delta x$，根据离散信源熵的定义，则$H_n(X)=-\sum_{i=1}^{n}p(x_i)logp(x_i)=-\sum_{i=1}^{n}p_X(x_i)\Delta xlog\;p_X(x_i)\Delta x$
+  - 当$n\rightarrow\infty时，即\Delta x\rightarrow 0$时，由积分定义得：$H(X)=\lim_{n\rightarrow\infty}H_n(X)=-\int_{a}^{b}p_X(x_i)log\;p_X(x_i)dx-\lim_{\Delta x\rightarrow 0}log\Delta x$
+    - 上述式的第一项具有离散信源熵的形式，是定值；第二项为无穷大。因而丢掉第二项，并定义**连续信源熵**为：
+    - $H_c(X)=-\int_{-\infty}^{\infty}p_X(x)log\;p(x)dx$称为微分熵(differential entropy)，有时也简称为熵
+  - 连续信源熵与离散信源熵具有相同的形式，但其意义不同
+
+- 对于两个变量分析，定义X、Y两个变量的情况
+
+  - 联合熵：$H_c(X,Y)=-\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}p_{X,Y}(x,y)log\;p_{X,Y}(x,y)dxdy$
+
+  - 条件熵：$H_c(X|Y)=-\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}p_X(x)p_Y(y|x)log\;p_Y(y|x)dxdy$
+
+  - 联合熵和条件熵之间与离散信源一样的相互关系，并且可以得到由信息特征的互信息，即
+
+    - $H_c(X,Y)=H_c(X)+H_c(Y|X)=H_c(Y)+H_c(X|Y)$
+
+    - $$
+      I(X;Y)=I(Y;X)=H_c(X)-H_c(H|Y)\\\qquad\qquad\qquad\qquad\qquad\quad\quad\;\;=H_c(X)+H_c(Y)-H_c(X,Y)\\\qquad\qquad\qquad\quad\quad\;=H_c(Y)-H_c(Y|X)
+      $$
+
+      
+
+#### 2.4.2 波形信源熵以及互信息
+
+- 对于平稳随机矢量$\vec{X}=(X_1,X_2,\cdots,X_L)和\vec{Y}=(Y_1,Y_2,\cdots,Y_L)$，则平稳随机矢量$\vec{X}和\vec{Y}$的连续熵和条件熵为
+  - $H_c(\vec{X})=H_c(X_1,X_2,\cdots,X_L)=-\int_{R}p_X(x)logp_X(x)dx$多维积分
+  - $H_c(\vec{X}|\vec{Y})=H_c(Y_1,Y_2,\cdots,Y_L|X_1,X_2,\cdots,X_L)=-\int_{R}\int_Rp_X(x,y)logp_Y(y|x)dxdy$
+- 对于随机波形信源，可由上述各项的极限表达式$L\rightarrow\infty $给出，则
+  - $H_c(x(t))\cong\lim_{L\rightarrow\infty}H_c(\vec{X})$
+  - $H_c(y(t)|x(t))\cong\lim_{L\rightarrow\infty}H_c(\vec{Y}|\vec{X})$
+- 对于限频$f_m$、限时$t_B$的平稳随机过程，可以用有限维$L=2f_mt_B$随机矢量表示，
+
+#### 2.4.3 最大熵定理
+
+- **限峰功率最大熵定理：**对于定义域为有限的随机变量$\vec{X}$，当它是是品骏分布时，具有最大熵
+
+  - 变量$\vec{X}$的幅度取值限制在$[a,b]$，则有$\int_{a}^{b}p_X(x)dx=1$,当任意$p_X(x)$符合平均分布条件
+    $$
+    p_X(x)=\begin{cases}
+    \frac{1}{a-b} \;,a\leq x\leq b\\
+    0\; , 				其他
+    \end{cases}
+    $$
+    时，信源达到最大熵
+
+  - $H_c(X)=-\int_{a}^{a}{\frac{1}{b-a}}log\frac{1}{b-a}dx=log(b-a)$，该结论与离散信源在以等概率出现时达到最大熵的结论相类似
+
+- **限平均功率最大熵定理：**对于相关矩阵一定的随机变量$\vec{X}$，当它是正态分布时具有最大熵
+
+  - 设随机变量$X$的概率密度分布为$p_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{\frac{-(x-2)^2}{x\sigma^2}}$，其中m为数学期望，$\sigma^2$为方差，则连续熵为
+    - $H_c(X)=\frac{1}{2}log(2\pi e\sigma^2)$
+
+### 2.5 信源的冗余度
+
+- **冗余度也称多余度或剩余度**，即给定信源在实际发出消息时包含的多于信息，如果一个消息所包含的符号比表达这个消息的符号多，那么这样的消息就存在冗余度
+- 冗余度产生的两个原因：
+  - 信源符号之间的相关性，相关程度越大，信源的实际熵越小，趋于极限熵$H_{\infty}(\vec{X})$；反之相关程度越小，信源的实际熵就增大
+  - 信源符号的分布不均匀性，**当等概率分布时信源熵最大**，而实际应用中大多数不均匀分布使得实际熵减小为$H_1(X)$;当信源输出符号间彼此不存在依赖关系且等概率分布时，信源实际熵区域最大熵$H_0(X)$
+- **信息效率**：$\upeta = \frac{H_{\infty}(X)}{H_m{X}}$
+  - 表示不肯定性的程度，由定义可知$0\leq \upeta \leq 1 , (1-\upeta)$表示肯定性的程度，因为肯定性不会含有信息量，所以表示是冗余的
+- 由上述信息效率定义**冗余度**为：$\upgamma =1-\upeta =1-\frac{H_{\infty}(X)}{H_{m}(X)}$
+  - 实际上，当只知道信源符号有n个可能取值，而对其概率特性一无所知时，合理的假设是：
+    - n个取值是等可能的，因为此时熵取最大值$H_0(X)=logn$
+
+## 3.信道与信道容量
+
+### 3.1 信道的基本概念
+
+#### 3.1.1 信道的分类
+
+- 根据用户数量可分为**单用户信道**和**多用户信道**
+- 根据信道输入端和输出端的关系可分为**无反馈信道**和**反馈信道**
+- 根据信道参数与时间的关系可分为**固定参数信道**和**时变参数信道**
+- 根据噪声种类可分为**随机差错信道**和**突发差错信道**
+- 根据输入、输出信号的特点可分为**离散信道**、**连续信道**、**半离散半连续信道**、**波形信道**
+
+#### 3.1.2 信道的数学模型
+
+- 信道输入矢量：$\vec{X}=(X_1,X_2,\cdots,X_i,\cdots),X_i \in A=\{a_1,a_2,\cdots,a_n\}$
+
+- 信道输出矢量：$\vec{Y}=(Y_1,Y_2,\cdots,Y_i,\cdots),Y_i \in B=\{b_1,b_2,\cdots,b_n\}$
+
+  - 通常采用条件概率$p(\vec{Y}|\vec{X})$来描述信道的输入、输出信号之间的统计的依赖关系
+  - 在分析信道时，该条件概率通常称为**转移概率**
+
+- 概率转移矩阵
+
+  - $$
+    \vec{P}=\left[\begin{matrix}
+     p_{11} & p_{12}&\cdots & p_{1m} \\
+     p_{12} & p_{22}&\cdots & p_{2m} \\
+     \vdots & \vdots&\ddots &\vdots  \\
+     p_{n1} & p_{n2}&\cdots & p_{nm} 
+    \end{matrix}
+    \right]
+    $$
+
+- 根据信道是否存在干扰以及有无记忆，将信道分为如下三类
+
+  - 无噪声信道
+
+    - 信道的输出信号$\vec{Y}$与输入信号$\vec{X}$之间有确定关系$\vec{Y}=f(\vec{X})$,已知输入信号后就确知输出信号
+
+    - 转移概率
+      $$
+      p(\vec{Y}|\vec{X})=\begin{cases}
+      1,\vec{Y}=f(\vec{X}) \\
+      0,\vec{Y}\neq f(\vec{X})
+      \end{cases}
+      $$
+      
+
+  - 有干扰无记忆信道
+
+    - 二进制离散信道
+    - 离散无记忆信道
+    - 离散输入、连续输出信道
+    - 波形信道
+
+  - 有干扰有记忆信道
+
+#### 3.1.3 信道容量的定义
+
+- 信道中平均每个符号所能传输的信息量定义为信道的信息传输率R，即
+  - $R=I(X;Y)=H(X)-H(X|Y)\quad bit/符号$
+
+### 3.2 离散单个符号信道及其容量
+
+#### 3.2.1 无干扰离散信道
+
+#### 3.2.2 对称DMC信道/对称离散无记忆信道
+
+
 
