@@ -79,11 +79,7 @@
 
   - 关键点：如何评价格局的“好”
 
-    - 极大极小博弈
-
-       <img src="Fundamental%20of%20Artificial%20Intelligence.assets/1665629771327.jpg" alt="1665629771327" style="zoom:25%;" />
-
-    - 有界深度的博弈树生成
+    - 极大极小博弈界深度的博弈树生成
 
 - 博弈过程
 
