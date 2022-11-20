@@ -509,11 +509,23 @@ PCI总线结构<img src="ComputerOrganizationAndDesign.assets/1668561755612.jpg"
 
 - 静态RAM基本单元电路
   - 存储器中寄存“0”，“1”代码的电路称为存储器的基本单元电路，如下图是一个由六个MOS管组成的基本单元电路<img src="ComputerOrganizationAndDesign.assets/1668674785535.jpg" alt="1668674785535" style="zoom:20%;" />
-  - 图中$T_1T_4$
+  - 图中$T_1到T_4$是由MOS管组成的**触发器基本电路**，$T_5、T_6$是一开关，受行地址选择信号控制，上述六个MOS管组成一个基本单元电路。$T_7、T_8$受列地址选择控制分别与位线$A'$和$A$相连，它们并不包含在基本单元电路中，而是芯片内同一列的各基本单元电路所共有
+  - 读出工作过程举例：假设触发器已存有“1”信号，即A点为高电平。当需读出时，只要使行、列地址选择信号均有效，则使$T_5、T_6、T_7、T_8$均导通，A点高电平通过$T_6$后，再由位线A通过$T_8$作为读出放大器的输入信号，在读选择有效时，将“1”信号读出
+  - 由于静态RAM是用触发器工作原理存储信息的，因此即使信号信息读出后，它仍保持其原有状态，不需要再生。但电源掉电时，原存信息丢失，故属于易失性半导体存储器
+  - 写入工作过程举例：写入时不需要知道原有状态如何，只要将写入代码送至$D_{IN}$端，在写选择有效时，经过两个写放大器，使两端输出为相反电平。当行、列地址选择有效使，使$T_6、T_6、T_7、T_8$导通，并将$A$与$A'$点置成完全相反的电平。至此，就把欲写入的信息写入该基本单元电路中。若写入“1”即$D_{IN}=1$，经两个写放大器，使位线$A$为高电平，位线$A'$为低电平，结果使$A$点为高，$A'$点为低，即写入了"1"信息
 - 静态RAM芯片举例
+  - Intel 2114外特性示意图
+    <img src="ComputerOrganizationAndDesign.assets/1668674785525.jpg" alt="1668674785525" style="zoom:20%;" />
+  - 2114 RAM芯片结构示意图<img src="ComputerOrganizationAndDesign.assets/1668674785515.jpg" alt="1668674785515" style="zoom:20%;" />
+    - 图中存储矩阵由$64\times64$个基本单元电路组成，列I/O电路即读/写电路。10根地址线分为行地址$A_8\sim A_3$和列地址$A_9、A_2、A_1、A_0$，4根数据线为$I/O_4\sim I/O_1$，它们受输入输出三态门控制的双向总线。当$\overline{CS}$和$\overline{WE}$均为低电平时，输入三态门打开，$I/O_4\sim I/O_1$上的数据即写入指定地址单元中。当$\overline{CS}$为低电平、$\overline{WE}$为高电平时，输出三态门打开，列I/O电路的输出经片内总线输出至数据线$I/O_4\sim I/O_1$上
+
+  - 2114 RAM 矩阵结构示意图<img src="ComputerOrganizationAndDesign.assets/1668674785506.jpg" alt="1668674785506" style="zoom:20%;" />
+
 - 静态RAM读写时序
-  - 读周期时序
+  - 读周期时序：
+    - 2114 RAM的读周期时序<img src="ComputerOrganizationAndDesign.assets/1668674785497.jpg" alt="1668674785497" style="zoom:20%;" />
   - 写周期时序
+    - 2114 RAM的写周期时序<img src="ComputerOrganizationAndDesign.assets/1668674785430.jpg" alt="1668674785430" style="zoom:20%;" />
 
 **动态RAM（Dynamic RAM）**
 

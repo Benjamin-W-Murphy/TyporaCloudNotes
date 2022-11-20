@@ -1,4 +1,4 @@
-# Informatics and Coding
+# Informatics and Coding-Part1
 
 ## 1.绪论
 
@@ -788,50 +788,3 @@ Shannon信息论的基本任务
 #### 3.5.1 MIMO信道模型
 
 #### 3.5.2 MIMO信道容量
-
-## 4 信息率失真函数
-
-### 4.1 信息率失真函数的性质和概念
-
-问题：信号在传输过程中存在的一定失真是可以容忍的，但需要规定一个失真限度，以保证信息在失真后仍有可用性
-
-#### 4.1.1 失真函数和平均失真
-
-假设存在信源X，输出样值为$x_i,x_i \in \{a_1,a_2,\cdots,a_n\}$，经过有失真的信源编码器，输出Y，样值为$y_j,y_j \in \{b_1,b_2,\cdots,b_m\}$
-
-- 如果$x_i =y_j$则信息没有失真；如果$x_i \neq y_j$就产生了失真
-
-- 此时失真的大小需要用一个**失真函数**表示，即$d(x_i,y_j)$，衡量用$y_j$代替$x_i$所引起的失真程度
-
-- 失真函数定义为
-  $$
-  d(x_i,y_j)= \begin{cases}
-  0\;\;,x_i=y_j \\
-  \alpha \;\;,\alpha >0,x_i \neq y_j
-  \end{cases}
-  $$
-  此时将所有的$d(x_i,y_j)$排列起来，用矩阵表示，得到失真矩阵
-  $$
-  \vec{d}=\left[
-  \begin{matrix}
-  d(a_1,b_1)&d(a_1,b_2)&\cdots &d(a_1,b_m)\\
-  a(a_2,b_1)&d(a_2,b_2)&\cdots& d(a_2,b_m)\\
-  \vdots&\vdots& &\vdots\\
-  d(a_n,b_1)&d(a_n,b_2)&\cdots&d(a_n,b_m)-0
-  \end{matrix}
-  \right]
-  $$
-  称$\vec{d}$为失真矩阵
-
-常见的失真函数有四种
-
-- 均方失真：$d(x_i,y_j)=(x_i-y_j)^2$
-- 绝对失真：$d(x_i,y_j)=|x_i-y_j|$
-- 相对失真：$d(x_i,y_j)=|x_i-y_j|/|x_i|$
-- 误码失真：$d(x_i,y_j)=\delta(x_i,y_j)=\begin{cases}0,x_i=y_j\\1,其他\end{cases}$
-- 前三种失真函数适用于**连续信源**，最后一个误码失真适用于**离散信源**
-
-失真函数的定义推广到序列编码，如果离散信源输出符号序列$X=(X_1,X_2,\cdots,X_L)$，其中L长符号序列
-
-#### 4.1.2 信息率失真函数$R(D)$
-
